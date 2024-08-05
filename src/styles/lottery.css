@@ -1,0 +1,42 @@
+.loot-boxes{
+    display: flex;
+    flex-direction: row;
+    width: calc(100vw - 200px);
+    overflow: scroll;
+    position: relative;
+    white-space: nowrap;
+    margin:0 auto;
+    gap: 5px;
+}
+.loot-boxes::-webkit-scrollbar{
+    display: none;
+}
+.loot-box{
+    display: flex;
+    background-color: #252628;
+    min-width: 250px;
+    min-height: 250px;
+    width: 250px;
+    height: 250px;
+    border-radius: 30px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.start-lottery{
+    margin: 40px auto;
+    background-color: #f0000f;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 24px 60px;
+    transition: 0.2s;
+    font-size: 26px;
+    box-shadow: 0 9px #670006;
+}
+.start-lottery:active{
+    box-shadow: 0 3px #670006;
+}
+.start-lottery:disabled{
+    opacity: 0.7;
+}
