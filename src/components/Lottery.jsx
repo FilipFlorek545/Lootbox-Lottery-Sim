@@ -39,7 +39,6 @@ const Lottery = () => {
         pressTimerRef.current = pressTimer;
     }, [pressTimer]);
     const handleMouseUp = () => {
-        if(isPressed){
         clearInterval(pressInterval.current)
         setOncePressed(true)
 
@@ -74,10 +73,10 @@ const Lottery = () => {
                 return newState;
             });
         }, 10);
-        }
 
+        setIsPressed(false)
     }
-
+        let press = isPressed || oncePressed
     const listItems = productData.map((item, index) => {
         return(
         <div key={index} className="loot-box">
@@ -102,10 +101,9 @@ const Lottery = () => {
             return false;
         }
     }
-
     return (
         <>
-            <div className={"loot-boxes " + ((!isPressed)? 'blurred' : '')}
+            <div className={"loot-boxes " + (!press ? 'blurred' : '')}
                  ref={scrollContainerRef}>
                 {listItems}
             </div>
@@ -118,7 +116,7 @@ const Lottery = () => {
                 // onTouchEnd={handleTouchEnd}
             >Losuj!
             </button>
-            <div>{isPressed.toString()}</div>
+            <div>{press.toString()}</div>
         </>
     )
 }
