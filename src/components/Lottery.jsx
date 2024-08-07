@@ -16,7 +16,6 @@ const Lottery = () => {
     const [isPressed, setIsPressed] = useState(false)
 
     const handleMouseDown = () => {
-        console.log('mouse down!')
         setIsPressed(true)
         pressInterval.current = setInterval(() => {
             setPressTimer(prevState => {
@@ -40,6 +39,7 @@ const Lottery = () => {
         pressTimerRef.current = pressTimer;
     }, [pressTimer]);
     const handleMouseUp = () => {
+        if(isPressed){
         clearInterval(pressInterval.current)
         setOncePressed(true)
 
@@ -74,24 +74,24 @@ const Lottery = () => {
                 return newState;
             });
         }, 10);
+        }
 
-        setIsPressed(false)
     }
 
     const listItems = productData.map((item, index) => {
         return(
         <div key={index} className="loot-box">
-            <a href={item.href} target="_top">
-                <div>
+            <div className="contents-wrapper">
+                <div className="loot-image-wrapper">
                     <img src={item.image} alt={item.name}/>
                 </div>
                 <div>
                     <p>{item.name}</p>
                 </div>
                 <div>
-                    <p>{item.priceDrop}</p>
+                    <p className={"loot-price " + item.rarity}>{item.priceDrop} PLN</p>
                 </div>
-            </a>
+            </div>
         </div>
         )}
     )
@@ -105,7 +105,8 @@ const Lottery = () => {
 
     return (
         <>
-            <div className="loot-boxes" ref={scrollContainerRef}>
+            <div className={"loot-boxes " + ((!isPressed)? 'blurred' : '')}
+                 ref={scrollContainerRef}>
                 {listItems}
             </div>
             <button disabled={oncePressed}
@@ -115,8 +116,9 @@ const Lottery = () => {
                     onMouseUp={handleMouseUp}
                 // onTouchStart={handleTouchStart}
                 // onTouchEnd={handleTouchEnd}
-            >Go!
+            >Losuj!
             </button>
+            <div>{isPressed.toString()}</div>
         </>
     )
 }

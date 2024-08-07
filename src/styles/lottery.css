@@ -1,3 +1,9 @@
+@font-face{
+    src: local("DINPro Bold"), url("../../public/assets/fonts/dinPro/DINProPLBold.otf") format("opentype");
+    font-family: DinProBold;
+    font-style: normal;
+    font-weight: 500;
+}
 .loot-boxes{
     display: flex;
     flex-direction: row;
@@ -5,6 +11,7 @@
     overflow: scroll;
     position: relative;
     white-space: nowrap;
+    z-index: 1;
     margin:0 auto;
     gap: 5px;
 }
@@ -13,7 +20,7 @@
 }
 .loot-box{
     display: flex;
-    background-color: #252628;
+    background-color: #ffffff;
     min-width: 250px;
     min-height: 250px;
     width: 250px;
@@ -21,12 +28,47 @@
     border-radius: 30px;
     justify-content: center;
     align-items: center;
+    font-family: DinProBold, sans-serif;
     text-align: center;
+}
+.contents-wrapper{
+    height: 100%;
+}
+.blurred{
+    filter: blur(5px);
+}
+.loot-box div{
+    color: black;
+}
+.loot-image-wrapper{
+    padding: 20px;
+    box-sizing: border-box;
+}
+.loot-image-wrapper img{
+    height: 75%;
+    width: 75%;
+}
+.loot-price{
+    text-align: center;
+    padding: 5px 0;
+    margin: 10px 30px;
+    border-radius: 10px;
+    color: white;
+}
+.green{
+    background-color: green;
+}
+.purple{
+    background-color: purple;
+}
+.blue{
+    background-color: blue
 }
 .start-lottery{
     margin: 40px auto;
     background-color: #f0000f;
     color: white;
+    font-family: DinProBold, sans-serif;
     border: none;
     border-radius: 10px;
     padding: 24px 60px;
