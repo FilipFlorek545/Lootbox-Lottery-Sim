@@ -11,6 +11,7 @@ const Lottery = () => {
     const buttonRef = useRef(null)
     const pressInterval = useRef(null)
     const pressTimerRef = useRef(0)
+    const [translateX, setTranslateX] = useState(0)
     const [pressTimer, setPressTimer] = useState(0)
     const [oncePressed, setOncePressed] = useState(false)
     const [isPressed, setIsPressed] = useState(false)
@@ -24,11 +25,11 @@ const Lottery = () => {
                 if(newState > 500) {
                     handleMouseUp()
                 } else if(newState > 300) {
-                    scrollContainerRef.current.scrollLeft += 17
+                    setTranslateX(prevState  => prevState -= 50)
                 } else if(newState > 150) {
-                    scrollContainerRef.current.scrollLeft += 10;
+                    setTranslateX(prevState  => prevState -= 25)
                 } else {
-                    scrollContainerRef.current.scrollLeft += 5;
+                    setTranslateX(prevState  => prevState -= 15)
                 }
                 return newState;
             });
@@ -49,24 +50,24 @@ const Lottery = () => {
             setPressTimer(prevState => {
                 const newState = prevState + 1;
                 if(afterRollTimer > 300) {
-                    if(force === 0) force = 17 + Math.random() * (3 - 0.5) + 0.5
-                    scrollContainerRef.current.scrollLeft += force
-                    force -= 0.03
-                    if(force < 0.8){
+                    if(force === 0) force = 50 + Math.random() * (10 - 0.5) + 0.5
+                    setTranslateX(prevState  => prevState -= force)
+                    force -= 0.1
+                    if(force < 0.2){
                         clearInterval(pressInterval.current)
                     }
                 } else if(afterRollTimer > 150) {
-                    if(force === 0) force = 10;
-                    scrollContainerRef.current.scrollLeft += force;
-                    force -= 0.02
-                    if(force < 0.6){
+                    if(force === 0) force = 25;
+                    setTranslateX(prevState  => prevState -= force)
+                    force -= 0.05
+                    if(force < 0.2){
                         clearInterval(pressInterval.current)
                     }
                 } else {
-                    if(force === 0) force = 7
-                    scrollContainerRef.current.scrollLeft += force;
-                    force -= 0.02
-                    if(force < 0.4){
+                    if(force === 0) force = 15
+                    setTranslateX(prevState  => prevState -= force)
+                    force -= 0.05
+                    if(force < 0.2){
                         clearInterval(pressInterval.current)
                     }
                 }
@@ -77,23 +78,25 @@ const Lottery = () => {
         setIsPressed(false)
     }
         let press = isPressed || oncePressed
-    const listItems = productData.map((item, index) => {
+    const listItems = [...productData,...productData,...productData].map((item, index) => {
         return(
-        <div key={index} className="loot-box">
-            <div className="contents-wrapper">
-                <div className="loot-image-wrapper">
-                    <img src={item.image} alt={item.name}/>
-                </div>
-                <div>
-                    <p>{item.name}</p>
-                </div>
-                <div>
-                    <p className={"loot-price " + item.rarity}>{item.priceDrop} PLN</p>
+            <div key={index} className="loot-box">
+                <div className="contents-wrapper">
+                    <div className="loot-image-wrapper">
+                        <img src={item.image} alt={item.name}/>
+                    </div>
+                    <div>
+                        <p>{item.name}</p>
+                    </div>
+                    <div>
+                        <p className={"loot-price " + item.rarity}>{item.priceDrop} PLN</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        )}
+        )
+        }
     )
+
     function preventKeyBoardScroll(e) {
         let keys = [32, 33, 34, 35, 37, 38, 39, 40];
         if (keys.includes(e.keyCode)) {
@@ -103,8 +106,10 @@ const Lottery = () => {
     }
     return (
         <>
+            <div className='arrow'></div>
             <div className={"loot-boxes " + (!press ? 'blurred' : '')}
-                 ref={scrollContainerRef}>
+                 ref={scrollContainerRef}
+                 style={{transform: `translateX(${translateX}px`}}>
                 {listItems}
             </div>
             <button disabled={oncePressed}
@@ -116,22 +121,7 @@ const Lottery = () => {
                 // onTouchEnd={handleTouchEnd}
             >Losuj!
             </button>
-            <div>{press.toString()}</div>
         </>
     )
 }
 export default Lottery;
-
-
-// if(isPressed > 100){
-//     clearInterval(pressInterval.current)
-//     pressInterval.current = setInterval(() => {
-//         console.log(123)
-//         setIsPressed(prevState => prevState + 1)
-//         scrollContainerRef.current.scrollBy(300, 0)
-//     },10)
-// }
-
-// const time = Date.now()
-// setTimer(time)
-// setIsPressed(true)
