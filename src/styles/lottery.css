@@ -34,8 +34,8 @@
     white-space: nowrap;
     z-index: 1;
     box-sizing: border-box;
-    margin:0 auto;
-    gap: 5px;
+    margin:0 16px 0 16px;
+    gap: 32px;
 }
 .loot-boxes::-webkit-scrollbar{
     display: none;
@@ -117,5 +117,4 @@
     to{
         opacity: 1;
     }
-
 }

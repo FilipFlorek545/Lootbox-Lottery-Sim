@@ -110,7 +110,7 @@ const Lottery = () => {
 
     let x = `<div class="contents-wrapper">
         <div class="loot-image-wrapper">
-                        <img src="http://localhost:3000/assets/prizes/Bike1.jpg" alt="Bike"/>
+                        <img src="http://localhost:3000/assets/prizes/BikeWrap.jpg" alt="Bike"/>
                     </div>
                     <div>
                         <p>Winning product!</p>
@@ -122,7 +122,6 @@ const Lottery = () => {
 
 
 
-
     const insertWinningBox = () => {
         let holdX = translateX === 0 ? 16000 : -translateX
         let releaseX = () => {
@@ -130,8 +129,13 @@ const Lottery = () => {
             else if (holdX > 2250) return 1
             else return 0
         }
-        let calculatedValue = (-holdX - forcePxData[releaseX()] - windowWidth / 2) / 255;
+        let calculatedValue = (-holdX - forcePxData[releaseX()] - windowWidth / 2) / 282;
+        console.log(-holdX, forcePxData[releaseX()], windowWidth)
         let winBox = calculatedValue.toFixed(2);
+        let dropBack = winBox - Math.floor(+winBox)
+        console.log(dropBack)
+        if(dropBack > 0.85) setTranslateX(prevState => prevState - 25)
+        if(dropBack < 0.15) setTranslateX(prevState => prevState + 25)
         let winBoxShortened = Math.trunc(calculatedValue)
         let xPos = winBoxShortened * -1
         let winningLootbox = document.createElement('div')
@@ -140,19 +144,19 @@ const Lottery = () => {
         scrollContainerRef.current.insertBefore(winningLootbox, scrollContainerRef.current.children[xPos])
         let calc = (winBox - winBoxShortened).toFixed(2) * -1
         calc = +(calc - 0.5).toFixed(2)
-
-        setOffSet(calc)
+         // setOffSet(calc)
     }
 
-    const debouncedTranslateX = usePrizeDebounce(translateX, 500)
+    const debouncedTranslateX = usePrizeDebounce(translateX, 300)
     useEffect(() => {
         if(press && offSet !== 0) {
-            scrollContainerRef.current.style.transition = "0.2s"
-            setTranslateX(prevState => prevState + (offSet * 250))
+            scrollContainerRef.current.style.transition = "1.5s"
+            setTranslateX(prevState => prevState + (0.1 * 282))
+            console.log(offSet)
             setOffSet(0)
             setTimeout(() => {
                 setGameOn(true)
-            }, 700)
+            }, 2000)
         }
     },[debouncedTranslateX])
 
@@ -190,7 +194,7 @@ const Lottery = () => {
             <div className="boxScreen loot-box">
                 <div className="contents-wrapper">
                     <div className="loot-image-wrapper">
-                        <img src="http://localhost:3000/assets/prizes/Bike1.jpg" alt="Bike"/>
+                        <img src="http://localhost:3000/assets/prizes/BikeWrap.jpg" alt="Bike"/>
                     </div>
                     <div>
                         <p>Winning product!</p>
